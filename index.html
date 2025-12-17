@@ -3,23 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <title>環保 go 真｜解構綠色神話</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- React 18 -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- React CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
     <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont;
+        background: #f8fafc;
+      }
+    </style>
   </head>
-  <body class="bg-slate-50">
+  <body>
     <div id="root"></div>
 
-    <!-- 你的 React 入口 -->
+    <!-- 你的 React 程式 -->
     <script type="text/babel" src="./App.jsx"></script>
-    <script type="text/babel" src="./main.jsx"></script>
+
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
   </body>
 </html>
