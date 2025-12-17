@@ -2,32 +2,412 @@
 <html lang="zh-Hant">
   <head>
     <meta charset="UTF-8" />
-    <title>環保 go 真｜解構綠色神話</title>
-
-    <!-- React CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>環保 go 真｜關係綠色神話</title>
     <style>
-      body {
+      :root{
+        --bg:#f8fafc;
+        --card:#ffffff;
+        --text:#0f172a;
+        --muted:#475569;
+        --line:#e2e8f0;
+        --accent:#2563eb;
+        --accent-2:#16a34a;
+        --shadow: 0 10px 30px rgba(2,6,23,.08);
+        --r: 16px;
+      }
+      *{ box-sizing:border-box; }
+      body{
+        margin:0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang TC","Noto Sans TC","Microsoft JhengHei", sans-serif;
+        background:var(--bg);
+        color:var(--text);
+      }
+      a{ color:inherit; }
+      .wrap{
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px 16px 60px;
+      }
+      .hero{
+        background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(22,163,74,.10));
+        border: 1px solid var(--line);
+        border-radius: calc(var(--r) + 6px);
+        padding: 20px 18px;
+        box-shadow: var(--shadow);
+      }
+      .hero h1{
+        margin: 0 0 6px;
+        font-size: 22px;
+        letter-spacing: .2px;
+      }
+      .hero p{
         margin: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont;
-        background: #f8fafc;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 14px;
+      }
+
+      .tabs{
+        margin-top: 14px;
+        display:flex;
+        gap:10px;
+        flex-wrap: wrap;
+      }
+      .tab{
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-size: 14px;
+        cursor: pointer;
+        user-select:none;
+        transition: .15s ease;
+      }
+      .tab:hover{ transform: translateY(-1px); }
+      .tab[aria-selected="true"]{
+        border-color: rgba(37,99,235,.35);
+        background: rgba(37,99,235,.10);
+        color: #0b2a7a;
+        font-weight: 600;
+      }
+
+      .panel{
+        margin-top: 14px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+        overflow:hidden;
+      }
+      .panelHead{
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        display:flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .panelHead h2{
+        margin:0;
+        font-size: 16px;
+      }
+      .badge{
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: #fff;
+      }
+
+      .content{
+        padding: 16px;
+        line-height: 1.7;
+        color: var(--text);
+        font-size: 14px;
+      }
+      .grid{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 760px){
+        .grid{ grid-template-columns: 1fr 1fr; }
+      }
+      .card{
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 14px 12px;
+        background: #fff;
+      }
+      .card h3{
+        margin: 0 0 6px;
+        font-size: 14px;
+      }
+      .card p{
+        margin:0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .block{
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+        background: #fff;
+        margin-top: 12px;
+      }
+      .block h3{
+        margin: 0 0 10px;
+        font-size: 14px;
+      }
+      .k{
+        display:inline-block;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        margin-right: 6px;
+        margin-bottom: 6px;
+        background:#fff;
+        color: var(--muted);
+      }
+      ul{ margin: 8px 0 0 18px; padding:0; }
+      li{ margin: 6px 0; }
+
+      .footer{
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align:center;
+      }
+      .note{
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .btnrow{
+        display:flex;
+        gap:10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .btn{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        border:1px solid var(--line);
+        background:#fff;
+        padding:9px 12px;
+        border-radius: 12px;
+        cursor:pointer;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .btnPrimary{
+        border-color: rgba(22,163,74,.35);
+        background: rgba(22,163,74,.10);
+      }
+      .btnAccent{
+        border-color: rgba(37,99,235,.35);
+        background: rgba(37,99,235,.10);
+      }
+      .hidden{ display:none !important; }
+      .mini{
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .divider{
+        height:1px;
+        background: var(--line);
+        margin: 12px 0;
+      }
+      code{
+        background: #f1f5f9;
+        padding: 2px 6px;
+        border-radius: 8px;
+        font-size: 12px;
       }
     </style>
   </head>
+
   <body>
-    <div id="root"></div>
+    <div class="wrap">
+      <div class="hero">
+        <h1>環保 go 真｜關係綠色神話</h1>
+        <p>
+          這是「可直接預覽」的靜態版本（不使用 React / Babel），放到 GitHub Pages 就會穩定顯示。
+          你可以把下面內容再改成你真正的教案文字。
+        </p>
 
-    <!-- 你的 React 程式 -->
-    <script type="text/babel" src="./App.jsx"></script>
+        <div class="tabs" role="tablist" aria-label="網站分頁">
+          <button class="tab" role="tab" id="tab-lesson" aria-controls="panel-lesson" aria-selected="true">
+            教案（兩節課）
+          </button>
+          <button class="tab" role="tab" id="tab-self" aria-controls="panel-self" aria-selected="false">
+            自學課程設計
+          </button>
+          <button class="tab" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false">
+            使用說明
+          </button>
+        </div>
 
-    <script type="text/babel">
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<App />);
+        <div class="note">
+          小提醒：之後如果還想要「標籤頁」更多，可以照這個結構複製新增。
+        </div>
+      </div>
+
+      <!-- Panel: Lesson -->
+      <section class="panel" id="panel-lesson" role="tabpanel" aria-labelledby="tab-lesson">
+        <div class="panelHead">
+          <h2>教案｜兩節課（可直接貼你的完整版文字）</h2>
+          <span class="badge">架構：引起動機 5 分｜發展活動 30 分｜綜合活動 5 分</span>
+        </div>
+        <div class="content">
+          <div class="grid">
+            <div class="card">
+              <h3>第一節課｜引起動機（約 5 分鐘）</h3>
+              <p>（把你原本的情境引導貼在這裡：例如「你會花 100 元做選擇嗎？」改成更貼近學生生活的版本。）</p>
+            </div>
+            <div class="card">
+              <h3>第一節課｜發展活動（約 30 分鐘）</h3>
+              <p>（貼活動流程：分組任務、媒體識讀提問、證據蒐集、討論記錄等。）</p>
+            </div>
+            <div class="card">
+              <h3>第一節課｜綜合活動（約 5 分鐘）</h3>
+              <p>（貼收束：一人一句今日學到的判斷準則／回家觀察任務。）</p>
+            </div>
+            <div class="card">
+              <h3>第二節課｜紙吸管 vs 塑膠吸管（案例修正版）</h3>
+              <p>（貼老師要你修改過的版本：比較重點、資料來源、判斷標準、行動建議。）</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>教案標籤（你可以改成你自己的）</h3>
+            <span class="k">#媒體識讀</span>
+            <span class="k">#環境永續</span>
+            <span class="k">#消費決策</span>
+            <span class="k">#小組討論</span>
+            <span class="k">#證據思考</span>
+
+            <div class="divider"></div>
+
+            <div class="mini">
+              想要更像「真正網站」：你把每一節課的文字直接貼進上面卡片，就完成了。
+            </div>
+
+            <div class="btnrow">
+              <button class="btn btnAccent" id="btn-open-checklist">打開：課前準備清單</button>
+              <button class="btn btnPrimary" id="btn-open-rubric">打開：小組評量規準</button>
+            </div>
+
+            <div class="block hidden" id="box-checklist">
+              <h3>課前準備清單（可改）</h3>
+              <ul>
+                <li>投影 / 大屏幕、學生分組座位安排</li>
+                <li>案例素材：影片或貼文截圖（建議 2–3 則）</li>
+                <li>學習單：觀點、證據、可信度、行動建議</li>
+                <li>小白板 / 便利貼 / 計時器</li>
+              </ul>
+            </div>
+
+            <div class="block hidden" id="box-rubric">
+              <h3>小組評量規準（可改）</h3>
+              <ul>
+                <li>能說出主張，並提出至少 1 個可信來源的證據</li>
+                <li>能辨識「廣告 / 立場 / 可能偏誤」並做合理推論</li>
+                <li>能提出可行的個人行動（不空泛）</li>
+                <li>小組分工清楚、討論有紀錄</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Self learning -->
+      <section class="panel hidden" id="panel-self" role="tabpanel" aria-labelledby="tab-self">
+        <div class="panelHead">
+          <h2>自學課程設計（給學生自己看也能懂）</h2>
+          <span class="badge">目標：看懂 → 判斷 → 做選擇</span>
+        </div>
+        <div class="content">
+          <div class="block">
+            <h3>自學路線圖（可改成你的版本）</h3>
+            <ul>
+              <li><b>步驟 1</b>：看一則素材（影片/貼文/新聞）並寫下「它在說什麼？」</li>
+              <li><b>步驟 2</b>：用 3 題檢核可信度：來源是誰？有數據嗎？有沒有反例？</li>
+              <li><b>步驟 3</b>：做一個選擇：你會買 / 不買 / 需要更多資訊？理由是什麼？</li>
+              <li><b>步驟 4</b>：提出一個行動：對自己、對同學、對家人可做的 1 件事</li>
+            </ul>
+            <p class="mini" style="margin-top:10px;">
+              你也可以把自學做成「任務卡」：每完成一步就打勾 ✅
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>自學任務卡（範例）</h3>
+            <ul>
+              <li>✅ 我能用一句話說出素材的主張</li>
+              <li>✅ 我能找出至少一個來源並評估可信度</li>
+              <li>✅ 我能寫下我的消費選擇與理由</li>
+              <li>✅ 我能提出一個可行的行動</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: About -->
+      <section class="panel hidden" id="panel-about" role="tabpanel" aria-labelledby="tab-about">
+        <div class="panelHead">
+          <h2>使用說明（你現在這頁為什麼不會再白屏）</h2>
+          <span class="badge">穩定版：純 HTML + JS</span>
+        </div>
+        <div class="content">
+          <div class="block">
+            <h3>你剛剛白屏的原因</h3>
+            <p class="mini">
+              你之前用 <code>React CDN + in-browser Babel</code> 直接跑 JSX，GitHub Pages 上容易因為快取、載入順序或模組格式而炸掉。
+              現在這版完全不依賴 React，所以會穩定顯示。
+            </p>
+          </div>
+
+          <div class="block">
+            <h3>我還留著 App.jsx / main.jsx 怎麼辦？</h3>
+            <p class="mini">
+              沒差！它們可以留著不動。GitHub Pages 只會讀 <code>index.html</code>。
+              之後你想整理再刪也可以（不是必須）。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">© 你的教案網站｜GitHub Pages 靜態版</div>
+    </div>
+
+    <script>
+      // Tabs
+      const tabs = [
+        { btn: document.getElementById("tab-lesson"), panel: document.getElementById("panel-lesson") },
+        { btn: document.getElementById("tab-self"), panel: document.getElementById("panel-self") },
+        { btn: document.getElementById("tab-about"), panel: document.getElementById("panel-about") },
+      ];
+
+      function selectTab(id){
+        tabs.forEach(({btn, panel}) => {
+          const isOn = btn.id === id;
+          btn.setAttribute("aria-selected", isOn ? "true" : "false");
+          panel.classList.toggle("hidden", !isOn);
+        });
+        // 可選：更新網址 hash，重整後還在同頁籤
+        const map = { "tab-lesson":"lesson", "tab-self":"self", "tab-about":"about" };
+        location.hash = map[id] ? ("#" + map[id]) : "";
+      }
+
+      tabs.forEach(({btn}) => btn.addEventListener("click", () => selectTab(btn.id)));
+
+      // Expand blocks
+      const btnChecklist = document.getElementById("btn-open-checklist");
+      const btnRubric = document.getElementById("btn-open-rubric");
+      const boxChecklist = document.getElementById("box-checklist");
+      const boxRubric = document.getElementById("box-rubric");
+
+      if(btnChecklist){
+        btnChecklist.addEventListener("click", () => boxChecklist.classList.toggle("hidden"));
+      }
+      if(btnRubric){
+        btnRubric.addEventListener("click", () => boxRubric.classList.toggle("hidden"));
+      }
+
+      // Load from hash
+      const h = (location.hash || "").replace("#","");
+      if(h === "self") selectTab("tab-self");
+      else if(h === "about") selectTab("tab-about");
+      else selectTab("tab-lesson");
     </script>
   </body>
 </html>
