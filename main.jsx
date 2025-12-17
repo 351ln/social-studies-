@@ -1,4 +1,9 @@
-import App from "./環保go真｜解構綠色神話（課程網站預覽）.jsx";
+import App from "./App.jsx";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(React.createElement(App));
+const el = document.getElementById("root");
+
+if (ReactDOM.createRoot) {
+  ReactDOM.createRoot(el).render(React.createElement(App));
+} else {
+  ReactDOM.render(React.createElement(App), el);
+}
