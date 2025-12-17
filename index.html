@@ -1,16 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pages 測試</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen grid place-items-center bg-slate-50">
-  <div class="rounded-2xl border border-slate-200 bg-white p-6 text-center">
-    <div class="text-sm text-slate-500">GitHub Pages OK ✅</div>
-    <div class="text-xl font-semibold mt-2">如果你看到這行，代表純 HTML 已成功部署</div>
-    <div class="text-sm text-slate-600 mt-2">接下來我再幫你換回完整版網站內容。</div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>環保 go 真｜解構綠色神話</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- React 18 -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-50">
+    <div id="root"></div>
+
+    <!-- 你的 React 入口 -->
+    <script type="text/babel" src="./App.jsx"></script>
+    <script type="text/babel" src="./main.jsx"></script>
+  </body>
 </html>
