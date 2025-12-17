@@ -1,258 +1,462 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>環保 GO 真｜解構綠色神話</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>環保 GO 真｜解構綠色神話</title>
+    <style>
+      :root{
+        --bg:#f6f8fb;
+        --card:#ffffff;
+        --text:#0f172a;
+        --muted:#475569;
+        --line:#e2e8f0;
+        --shadow: 0 10px 30px rgba(2,6,23,.06);
+        --r: 22px;
+        --accent:#0f172a;
+      }
+      *{ box-sizing:border-box; }
+      body{
+        margin:0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang TC","Noto Sans TC","Microsoft JhengHei", sans-serif;
+        background:var(--bg);
+        color:var(--text);
+      }
+      .wrap{
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 26px 16px 54px;
+      }
+      .hero{
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: calc(var(--r) + 8px);
+        padding: 22px 20px;
+        box-shadow: var(--shadow);
+      }
+      .kicker{
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .16em;
+        color:#64748b;
+      }
+      .h1{
+        margin-top: 6px;
+        font-size: 34px;
+        font-weight: 900;
+        letter-spacing: .2px;
+      }
+      .sub{
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .pills{
+        margin-top: 12px;
+        display:flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .pill{
+        display:inline-flex;
+        align-items:center;
+        border: 1px solid var(--line);
+        background:#fff;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        color:#475569;
+      }
+      .tabs{
+        margin-top: 14px;
+        display:flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .tab{
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-size: 14px;
+        cursor: pointer;
+        user-select:none;
+        transition: .15s ease;
+        font-weight: 700;
+        color:#0f172a;
+      }
+      .tab:hover{ transform: translateY(-1px); }
+      .tab[aria-selected="true"]{
+        border-color: rgba(15,23,42,.5);
+        background: rgba(15,23,42,.92);
+        color: #fff;
+      }
 
-  <style>
-    :root{
-      --bg:#f8fafc;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
-      --line:#e2e8f0;
-      --accent:#0f172a;
-      --soft:#f1f5f9;
-      --r:20px;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family:
-        system-ui,-apple-system,BlinkMacSystemFont,
-        "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px 16px 64px;
-    }
-    h1,h2,h3{ margin:0; }
-    p{ margin:0; line-height:1.7; }
+      .panel{
+        margin-top: 14px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+        overflow:hidden;
+      }
+      .panelHead{
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        display:flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .panelHead h2{
+        margin:0;
+        font-size: 16px;
+        font-weight: 900;
+      }
+      .badge{
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: #fff;
+      }
+      .content{
+        padding: 16px;
+        line-height: 1.75;
+        font-size: 14px;
+      }
 
-    /* Header */
-    .hero{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:24px;
-      box-shadow:0 10px 30px rgba(0,0,0,.05);
-    }
-    .kicker{
-      font-size:12px;
-      letter-spacing:.15em;
-      color:#64748b;
-      font-weight:700;
-    }
-    .title{
-      font-size:32px;
-      font-weight:800;
-      margin-top:6px;
-    }
-    .subtitle{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:14px;
-    }
-    .tags{
-      margin-top:12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .pill{
-      border:1px solid var(--line);
-      background:#fff;
-      padding:4px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color:#475569;
-    }
+      .grid{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 760px){
+        .grid{ grid-template-columns: 1fr 1fr 1fr; }
+        .grid2{ grid-template-columns: 1fr 1fr; }
+      }
+      .card{
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        background: #fff;
+      }
+      .card h3{
+        margin:0 0 8px;
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .card p{
+        margin:0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
 
-    /* Tabs */
-    .tabs{
-      margin-top:16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .tab{
-      padding:10px 16px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:14px;
-      cursor:pointer;
-      font-weight:600;
-    }
-    .tab.active{
-      background:var(--accent);
-      color:#fff;
-      border-color:var(--accent);
-    }
+      .block{
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        background:#fff;
+        margin-top: 12px;
+      }
+      .block h3{
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .muted{ color: var(--muted); }
+      ul{ margin: 8px 0 0 18px; padding:0; }
+      li{ margin: 6px 0; }
 
-    /* Sections */
-    .section{
-      margin-top:32px;
-    }
-    .section-title{
-      font-size:22px;
-      font-weight:700;
-      margin-bottom:8px;
-    }
-    .section-desc{
-      color:var(--muted);
-      font-size:14px;
-      max-width:760px;
-    }
+      /* timeline */
+      .timeline{ margin-top: 8px; }
+      .titem{
+        display:flex;
+        gap: 12px;
+        padding: 10px 0;
+      }
+      .dotcol{
+        width: 22px;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+      }
+      .dot{
+        width: 10px; height: 10px;
+        border-radius: 999px;
+        background: #0f172a;
+        margin-top: 4px;
+      }
+      .line{
+        flex: 1;
+        width: 2px;
+        background: #e2e8f0;
+        margin-top: 6px;
+      }
+      .tmain{
+        flex:1;
+      }
+      .trow{
+        display:flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+      .ttitle{
+        font-weight: 900;
+      }
+      .tmeta{
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: #fff;
+      }
+      .tdesc{
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
 
-    .card{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:20px;
-    }
+      /* links */
+      .linkrow{
+        display:flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .btnlink{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        border:1px solid var(--line);
+        background:#fff;
+        padding:10px 12px;
+        border-radius: 14px;
+        text-decoration:none;
+        color: var(--text);
+        font-weight: 800;
+        font-size: 13px;
+      }
+      .btnlink:hover{ transform: translateY(-1px); }
 
-    .grid{
-      display:grid;
-      gap:16px;
-    }
-    @media (min-width: 768px){
-      .grid-3{ grid-template-columns:repeat(3,1fr); }
-      .grid-2{ grid-template-columns:repeat(2,1fr); }
-    }
+      .footer{
+        margin-top: 14px;
+        color: #94a3b8;
+        font-size: 12px;
+        text-align:center;
+      }
+      .footer strong{ color:#64748b; font-weight:900; }
+      .hidden{ display:none !important; }
+    </style>
+  </head>
 
-    ul{
-      padding-left:20px;
-      margin:8px 0 0;
-    }
-    li{ margin:6px 0; }
+  <body>
+    <div class="wrap">
+      <div class="hero">
+        <div class="kicker">ENV × MEDIA LITERACY</div>
+        <div class="h1">環保 GO 真｜解構綠色神話</div>
+        <div class="sub">五年級媒體素養 × 消費決策 × 永續思考</div>
 
-    .hidden{ display:none; }
+        <div class="pills">
+          <span class="pill">媒體素養</span>
+          <span class="pill">社會科／永續單元</span>
+          <span class="pill">消費選擇</span>
+          <span class="pill">反漂綠</span>
+          <span class="pill">小組探究</span>
+        </div>
 
-    footer{
-      margin-top:48px;
-      text-align:center;
-      font-size:12px;
-      color:#94a3b8;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-
-    <!-- HERO -->
-    <div class="hero">
-      <div class="kicker">ENV × MEDIA LITERACY</div>
-      <div class="title">環保 GO 真｜解構綠色神話</div>
-      <div class="subtitle">五年級媒體素養 × 消費決策 × 永續思考</div>
-
-      <div class="tags">
-        <span class="pill">媒體素養</span>
-        <span class="pill">社會科／永續單元</span>
-        <span class="pill">消費選擇</span>
-        <span class="pill">反漂綠</span>
-        <span class="pill">小組探究</span>
+        <div class="tabs" role="tablist" aria-label="網站分頁">
+          <button class="tab" role="tab" id="tab-flow" aria-controls="panel-flow" aria-selected="true">
+            教學流程概覽
+          </button>
+          <button class="tab" role="tab" id="tab-selfflow" aria-controls="panel-selfflow" aria-selected="false">
+            自學流程設計
+          </button>
+          <button class="tab" role="tab" id="tab-res" aria-controls="panel-res" aria-selected="false">
+            資源與附件
+          </button>
+        </div>
       </div>
 
-      <div class="tabs">
-        <button class="tab active" data-tab="lesson">教案標籤頁</button>
-        <button class="tab" data-tab="self">自學課程設計</button>
-        <button class="tab" data-tab="resources">資源與附件</button>
+      <!-- 教學流程概覽 -->
+      <section class="panel" id="panel-flow" role="tabpanel" aria-labelledby="tab-flow">
+        <div class="panelHead">
+          <h2>教學流程概覽</h2>
+          <span class="badge">兩節課 × 主線流程（更像教案封面）</span>
+        </div>
+        <div class="content">
+          <div class="grid">
+            <div class="card">
+              <h3>課程核心</h3>
+              <p>破除「環保符號＝真的環保」迷思；練習辨識宣稱、檢核資訊、做出有理由的選擇。</p>
+            </div>
+            <div class="card">
+              <h3>設計源起</h3>
+              <p>從學生生活經驗出發，把「花錢」當作一次次可被反思的選擇，連結到資源使用與環境影響。</p>
+            </div>
+            <div class="card">
+              <h3>素養目標</h3>
+              <p>理解選擇與影響的關聯；能比較宣稱與資料落差；能說出理由，而非背誦答案。</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>兩節課教學重點</h3>
+            <ul>
+              <li><b>第一節</b>：從小額日常消費出發，連結需求／想要與環境影響</li>
+              <li><b>第二節</b>：以紙吸管案例練習「宣稱拆解」與「漏看面向」</li>
+            </ul>
+          </div>
+
+          <div class="block">
+            <h3>主線流程（6 Steps）</h3>
+            <div class="timeline">
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div><div class="line"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 1｜個人選擇</div><span class="tmeta">從生活出發</span></div>
+                  <div class="tdesc">小額日常情境（30–50 元）：我會怎麼用？為什麼？</div>
+                </div>
+              </div>
+
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div><div class="line"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 2｜習慣反思</div><span class="tmeta">需求 vs 想要</span></div>
+                  <div class="tdesc">回看自己「花錢的時刻」：不買會怎樣？是方便、流行、或真的需要？</div>
+                </div>
+              </div>
+
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div><div class="line"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 3｜系統連結</div><span class="tmeta">選擇＝投票</span></div>
+                  <div class="tdesc">三張消費卡：支持哪一種生產與生活方式？</div>
+                </div>
+              </div>
+
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div><div class="line"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 4｜權衡分析</div><span class="tmeta">理財 × 永續</span></div>
+                  <div class="tdesc">用「天秤」整理個人利益與環境影響：不給標準答案，練習說明理由。</div>
+                </div>
+              </div>
+
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div><div class="line"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 5｜神話拆解</div><span class="tmeta">宣稱 vs 資料</span></div>
+                  <div class="tdesc">紙吸管案例：為什麼被說環保？漏了哪些面向？</div>
+                </div>
+              </div>
+
+              <div class="titem">
+                <div class="dotcol"><div class="dot"></div></div>
+                <div class="tmain">
+                  <div class="trow"><div class="ttitle">Step 6｜行動實踐</div><span class="tmeta">小改變</span></div>
+                  <div class="tdesc">設計一個可行的小行動（1 週），並能解釋它的理由。</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="muted" style="margin-top:10px; font-size:12px;">
+              （你現在只保留「流程概覽」，不再放「教案標籤頁」那種細碎內容，整體會更乾淨。）
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 自學流程設計（未來規劃） -->
+      <section class="panel hidden" id="panel-selfflow" role="tabpanel" aria-labelledby="tab-selfflow">
+        <div class="panelHead">
+          <h2>自學流程設計（未來規劃）</h2>
+          <span class="badge">不是「自學課程內容」：只呈現流程</span>
+        </div>
+        <div class="content">
+          <div class="block">
+            <h3>自學主線（5 Steps）</h3>
+            <ul>
+              <li><b>Step 1</b>：選一個生活中的「環保宣稱」（產品／店家標語／包裝）</li>
+              <li><b>Step 2</b>：把宣稱拆成「可檢核的問題」（需要哪些證據？）</li>
+              <li><b>Step 3</b>：閱讀資料卡／蒐集資訊，標記「支持」與「讓它更複雜」的內容</li>
+              <li><b>Step 4</b>：寫下「暫時結論」（因為＿＿；但我還想知道＿＿）</li>
+              <li><b>Step 5</b>：設計一個可追蹤的小行動（做多久？怎麼知道做到了？）</li>
+            </ul>
+            <div class="muted" style="margin-top:10px; font-size:12px;">
+              你之後如果要加「學生產出」只要放 3 個：宣稱拆解卡、暫時結論、小行動計畫（就很漂亮了）。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 資源與附件 -->
+      <section class="panel hidden" id="panel-res" role="tabpanel" aria-labelledby="tab-res">
+        <div class="panelHead">
+          <h2>資源與附件</h2>
+          <span class="badge">可直接放 Drive / Notion / 表單連結</span>
+        </div>
+        <div class="content">
+          <div class="grid grid2">
+            <div class="card">
+              <h3>教材與學習單</h3>
+              <p>可放 Google Drive、Notion、或 QR Code 連結（點下面按鈕）。</p>
+              <div class="linkrow">
+                <a class="btnlink" href="https://example.com" target="_blank" rel="noreferrer">📄 學習單連結</a>
+                <a class="btnlink" href="https://example.com" target="_blank" rel="noreferrer">🗂️ 教材資料夾</a>
+              </div>
+              <div class="muted" style="margin-top:8px; font-size:12px;">
+                把 <b>https://example.com</b> 換成你的 Drive/Notion 網址即可。
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>教師備註</h3>
+              <p>避免二分立場，重點在提出可檢核的問題，並能說出理由。</p>
+              <div class="linkrow">
+                <a class="btnlink" href="https://example.com" target="_blank" rel="noreferrer">🧾 評量規準</a>
+                <a class="btnlink" href="https://example.com" target="_blank" rel="noreferrer">📝 資料卡（案例）</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        Built for demo • GitHub Pages 靜態版<br/>
+        <strong>製作 by 北市大教育三 李彣伶</strong>
       </div>
     </div>
 
-    <!-- LESSON -->
-    <section class="section" id="lesson">
-      <h2 class="section-title">課程概要</h2>
-      <p class="section-desc">
-        核心是「解構綠色神話」：把看似合理的環保宣稱拆解成可檢核的問題，
-        讓學生能以證據與多面向思考做出更成熟的消費決策。
-      </p>
+    <script>
+      const tabs = [
+        { btn: document.getElementById("tab-flow"), panel: document.getElementById("panel-flow"), hash: "flow" },
+        { btn: document.getElementById("tab-selfflow"), panel: document.getElementById("panel-selfflow"), hash: "selfflow" },
+        { btn: document.getElementById("tab-res"), panel: document.getElementById("panel-res"), hash: "res" },
+      ];
 
-      <div class="grid grid-3" style="margin-top:16px">
-        <div class="card">
-          <h3>課程核心</h3>
-          <p>破除「環保符號＝真的環保」的迷思，培養學生辨識宣稱與證據的能力。</p>
-        </div>
-        <div class="card">
-          <h3>設計源起</h3>
-          <p>從學生生活經驗出發，把「花錢」當作一次次可被反思的選擇。</p>
-        </div>
-        <div class="card">
-          <h3>素養目標</h3>
-          <p>理解選擇與影響的關聯，能說出理由，而非背誦答案。</p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:24px">
-        <h3>兩節課教案重點</h3>
-        <ul>
-          <li>第一節：從小額生活消費出發，連結需求、想要與環境影響</li>
-          <li>第二節：以紙吸管案例練習「宣稱拆解」與「漏看面向」</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- SELF -->
-    <section class="section hidden" id="self">
-      <h2 class="section-title">自學課程設計</h2>
-      <p class="section-desc">
-        將課堂活動轉為學生可自行完成的拆解流程。
-      </p>
-
-      <div class="grid grid-3" style="margin-top:16px">
-        <div class="card"><b>Step 1</b><br>選一個環保宣稱</div>
-        <div class="card"><b>Step 2</b><br>拆成可檢核問題</div>
-        <div class="card"><b>Step 3</b><br>閱讀資料補漏</div>
-        <div class="card"><b>Step 4</b><br>形成暫時結論</div>
-        <div class="card"><b>Step 5</b><br>設計小行動</div>
-      </div>
-    </section>
-
-    <!-- RESOURCES -->
-    <section class="section hidden" id="resources">
-      <h2 class="section-title">資源與附件</h2>
-      <div class="grid grid-2" style="margin-top:16px">
-        <div class="card">
-          <h3>教材與學習單</h3>
-          <p>可放 Google Drive、Notion 或 QR Code。</p>
-        </div>
-        <div class="card">
-          <h3>教師備註</h3>
-          <p>避免二分立場，重點在提出可檢核的問題。</p>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      Built for demo • GitHub Pages 靜態版
-    </footer>
-  </div>
-
-  <script>
-    const tabs = document.querySelectorAll(".tab");
-    const sections = ["lesson","self","resources"];
-
-    tabs.forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        tabs.forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-        sections.forEach(id=>{
-          document.getElementById(id).classList.toggle("hidden", btn.dataset.tab !== id);
+      function selectTab(id){
+        tabs.forEach(({btn, panel, hash}) => {
+          const on = btn.id === id;
+          btn.setAttribute("aria-selected", on ? "true" : "false");
+          panel.classList.toggle("hidden", !on);
+          if(on) location.hash = "#" + hash;
         });
-        location.hash = btn.dataset.tab;
-      });
-    });
+      }
+      tabs.forEach(({btn}) => btn.addEventListener("click", () => selectTab(btn.id)));
 
-    const hash = location.hash.replace("#","");
-    if(sections.includes(hash)){
-      document.querySelector(`.tab[data-tab="${hash}"]`).click();
-    }
-  </script>
-</body>
+      const h = (location.hash || "").replace("#","");
+      const found = tabs.find(t => t.hash === h);
+      if(found) selectTab(found.btn.id);
+      else selectTab("tab-flow");
+    </script>
+  </body>
 </html>
