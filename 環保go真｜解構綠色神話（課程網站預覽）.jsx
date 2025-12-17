@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+const { useMemo, useState } = React;
 
 const Pill = ({ children }) => (
   <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600 shadow-sm">
@@ -378,7 +377,7 @@ export default function App() {
           </div>
         </div>
 
-        <motion.div
+        <div>
           key={tab}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -511,7 +510,7 @@ export default function App() {
               </Card>
             </>
           ) : null}
-        </motion.div>
+        </div>
 
         <div className="mt-8 text-center text-xs text-slate-500">
           Built for demo • 單頁式網站預覽（可再加：組員介紹、評量規準、學生作品牆）
