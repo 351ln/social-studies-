@@ -286,6 +286,82 @@
         text-decoration: underline;
         text-underline-offset: 3px;
       }
+
+      /* -------------------------------
+         自學闖關 UI（新增）
+      --------------------------------*/
+      .questTop{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .progressBar{
+        height: 10px;
+        width: 100%;
+        border-radius: 999px;
+        background: #eef2f7;
+        overflow:hidden;
+        border: 1px solid var(--line);
+      }
+      .progressFill{
+        height: 100%;
+        width: 0%;
+        background: #0f172a;
+      }
+      .questGrid{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      @media (min-width: 860px){
+        .questGrid{ grid-template-columns: 1fr 1fr; }
+      }
+      .questCard{
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        padding: 14px;
+        transition: .15s ease;
+      }
+      .questCard:hover{ transform: translateY(-1px); }
+      .questCard.locked{
+        background: #f8fafc;
+        opacity: .65;
+      }
+      .questHead{
+        display:flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items:center;
+      }
+      .questTitle{
+        font-weight: 800;
+        font-size: 14px;
+      }
+      .tag{
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background:#fff;
+        color: var(--muted);
+      }
+      .tag.ok{ border-color: rgba(22,163,74,.35); background: rgba(22,163,74,.10); color:#14532d; }
+      .tag.go{ border-color: rgba(37,99,235,.35); background: rgba(37,99,235,.10); color:#0b2a7a; }
+      .tag.lock{ border-color: rgba(148,163,184,.5); background: rgba(148,163,184,.10); color:#475569; }
+      .questBtns{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 10px; }
+      .panelMini{
+        border:1px solid var(--line);
+        background:#f8fafc;
+        border-radius: 14px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+      .panelMini b{ color: var(--text); }
     </style>
   </head>
 
@@ -308,7 +384,7 @@
 
         <div class="tabs" role="tablist" aria-label="網站分頁">
           <button class="tab" role="tab" id="tab-lesson" aria-controls="panel-lesson" aria-selected="true">
-            教案標籤頁
+            教學流程概覽
           </button>
           <button class="tab" role="tab" id="tab-self" aria-controls="panel-self" aria-selected="false">
             自學課程設計
@@ -322,8 +398,9 @@
         </div>
       </div>
 
-      <!-- Panel: Lesson -->
+      <!-- Panel: Lesson (你的原內容保留) -->
       <section class="panel" id="panel-lesson" role="tabpanel" aria-labelledby="tab-lesson">
+        <!-- ===== 這一段以下完全保留你原本的教案/抽籤/附件內容 ===== -->
         <div class="panelHead">
           <h2>教案｜兩節課（40 分鐘 × 2）</h2>
           <span class="badge">架構：引起動機 5 分｜發展活動 30 分｜綜合活動 5 分</span>
@@ -484,41 +561,60 @@
         </div>
       </section>
 
-      <!-- Panel: Self -->
+      <!-- Panel: Self（改成闖關，但仍在同一頁籤） -->
       <section class="panel hidden" id="panel-self" role="tabpanel" aria-labelledby="tab-self">
         <div class="panelHead">
-          <h2>自學課程設計（學生自己走得完的拆解流程）</h2>
+          <h2>自學闖關系統（完成一關解鎖下一關）</h2>
           <span class="badge">看宣稱 → 找證據 → 補漏點 → 暫時結論 → 小行動</span>
         </div>
 
         <div class="content">
           <div class="block">
-            <h3>自學路線圖</h3>
-            <ul>
-              <li><b>Step 1｜選一個環保宣稱</b>：從飲料店/文具/生活用品選一個標榜「環保」的標語或產品，寫下它在說什麼。</li>
-              <li><b>Step 2｜拆成可檢核問題</b>：這個宣稱需要哪些證據？它可能只講了哪一段（製造/運輸/使用/丟棄）？</li>
-              <li><b>Step 3｜資料卡閱讀</b>：閱讀 2–3 則資料（老師提供或自行蒐集），標記「支持宣稱」與「讓宣稱變複雜」的資訊。</li>
-              <li><b>Step 4｜暫時結論</b>：用句型「我目前覺得＿＿＿，因為＿＿＿；但我還想知道＿＿＿。」避免絕對化。</li>
-              <li><b>Step 5｜小行動</b>：選一個可完成、可追蹤的改變（1 週），寫下要做什麼、做多久、怎麼知道做到了。</li>
-            </ul>
+            <div class="questTop">
+              <div>
+                <div style="font-weight:800;">闖關進度</div>
+                <div class="mini">已完成 <b id="q-done">0</b> / <span id="q-total">5</span> 關</div>
+              </div>
+              <div class="btnrow" style="margin-top:0;">
+                <button class="btn btnWarn" id="q-reset">重置進度</button>
+              </div>
+            </div>
+            <div class="progressBar" style="margin-top:10px;">
+              <div class="progressFill" id="q-bar"></div>
+            </div>
+            <div class="mini" style="margin-top:10px;">
+              規則：<b>完成一關才能解鎖下一關</b>。進度會自動記住（同一台電腦/同一個瀏覽器）。
+            </div>
           </div>
+
+          <div class="questGrid" id="questGrid"></div>
 
           <div class="block">
-            <h3>自學任務卡（交作業版本）</h3>
-            <ul>
-              <li>✅ 我能用一句話說出宣稱的主張</li>
-              <li>✅ 我能提出至少 2 個可檢核的問題</li>
-              <li>✅ 我能找出至少 1 則資訊並評估可信度</li>
-              <li>✅ 我能寫下暫時結論（含「我還想知道」）</li>
-              <li>✅ 我能提出一個可行的小行動（1 週）</li>
-            </ul>
+            <h3>任務面板（給學生直接抄這句型交作業）</h3>
+            <div class="panelMini">
+              <div class="mini">
+                <b>暫時結論句型：</b>
+                我目前覺得＿＿＿，因為＿＿＿；但我還想知道＿＿＿。
+              </div>
+              <div class="divider"></div>
+              <div class="mini">
+                <b>自學交作業（建議）</b>
+                <ul>
+                  <li>✅ 一句話寫出宣稱主張</li>
+                  <li>✅ 至少 2 個可檢核問題</li>
+                  <li>✅ 至少 1 則資訊＋可信度簡評</li>
+                  <li>✅ 暫時結論（含「我還想知道」）</li>
+                  <li>✅ 1 週小行動（可完成、可追蹤）</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div class="footer">提示：自學頁可搭配「資源與附件」提供資料卡/文章連結。</div>
+          <div class="footer">提示：這一頁只新增「闖關 UI」，不影響你的教案概覽/抽籤/附件。</div>
         </div>
       </section>
 
-      <!-- Panel: Draw -->
+      <!-- Panel: Draw（你的原內容保留） -->
       <section class="panel hidden" id="panel-draw" role="tabpanel" aria-labelledby="tab-draw">
         <div class="panelHead">
           <h2>抽籤系統（分組/點名/隨機指派）</h2>
@@ -585,7 +681,7 @@
         </div>
       </section>
 
-      <!-- Panel: Resources -->
+      <!-- Panel: Resources（你的原內容保留） -->
       <section class="panel hidden" id="panel-resources" role="tabpanel" aria-labelledby="tab-resources">
         <div class="panelHead">
           <h2>資源與附件（雲端連結）</h2>
@@ -698,7 +794,152 @@
       }
 
       // -------------------------------
-      // 抽籤系統（localStorage 持久化）
+      // 自學闖關（localStorage）
+      // -------------------------------
+      const Q_KEY = "eco_go_true_quest_v1";
+
+      const quests = [
+        {
+          title: "第 1 關｜選一個環保宣稱",
+          time: "5–8 分鐘",
+          points: [
+            "從飲料店/文具/生活用品選一個標榜「環保」的標語或產品",
+            "寫下它在說什麼（例如：可分解、減塑、友善海洋）"
+          ]
+        },
+        {
+          title: "第 2 關｜拆成可檢核問題",
+          time: "8–10 分鐘",
+          points: [
+            "這個宣稱需要哪些證據？",
+            "它可能只講了哪一段（製造/運輸/使用/丟棄）？至少寫 2 題"
+          ]
+        },
+        {
+          title: "第 3 關｜資料卡閱讀",
+          time: "10–12 分鐘",
+          points: [
+            "閱讀 2–3 則資料（老師提供或自行蒐集）",
+            "標記：支持宣稱的資訊 / 讓宣稱變複雜的資訊"
+          ]
+        },
+        {
+          title: "第 4 關｜暫時結論",
+          time: "5–8 分鐘",
+          points: [
+            "用句型寫下：我目前覺得＿＿，因為＿＿；但我還想知道＿＿",
+            "避免絕對化：不是非黑即白，而是有條件、有前提"
+          ]
+        },
+        {
+          title: "第 5 關｜小行動（1 週）",
+          time: "5–8 分鐘",
+          points: [
+            "選一個你做得到的改變：少買一次/改用可重複使用/先不買",
+            "寫下：我要做什麼？做多久？怎麼知道我做到了？"
+          ]
+        },
+      ];
+
+      const qGrid = document.getElementById("questGrid");
+      const qDone = document.getElementById("q-done");
+      const qTotal = document.getElementById("q-total");
+      const qBar = document.getElementById("q-bar");
+      const qReset = document.getElementById("q-reset");
+
+      function loadQuest(){
+        try{
+          const raw = localStorage.getItem(Q_KEY);
+          const arr = raw ? JSON.parse(raw) : [];
+          return Array.isArray(arr) ? arr : [];
+        }catch{ return []; }
+      }
+      function saveQuest(arr){
+        localStorage.setItem(Q_KEY, JSON.stringify(arr));
+      }
+
+      function renderQuest(){
+        const doneArr = loadQuest();
+        const doneSet = new Set(doneArr);
+        const total = quests.length;
+        const doneN = quests.filter((_, i) => doneSet.has(i)).length;
+
+        qTotal.textContent = String(total);
+        qDone.textContent = String(doneN);
+        qBar.style.width = String(Math.round((doneN / Math.max(1,total)) * 100)) + "%";
+
+        qGrid.innerHTML = quests.map((q, i) => {
+          const unlocked = i === 0 || doneSet.has(i - 1);
+          const done = doneSet.has(i);
+          const stateTag = done ? `<span class="tag ok">已完成</span>` : unlocked ? `<span class="tag go">可挑戰</span>` : `<span class="tag lock">未解鎖</span>`;
+          const lockClass = unlocked ? "" : "locked";
+
+          const points = q.points.map(p => `<li>${p}</li>`).join("");
+          const btnStart = `<button class="btn btnAccent" data-act="start" data-i="${i}" ${unlocked ? "" : "disabled"}>開始任務</button>`;
+          const btnDone = `<button class="btn btnPrimary" data-act="done" data-i="${i}" ${unlocked && !done ? "" : "disabled"}>完成本關</button>`;
+
+          return `
+            <div class="questCard ${lockClass}">
+              <div class="questHead">
+                <div class="questTitle">${q.title}</div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="tag">${q.time}</span>
+                  ${stateTag}
+                </div>
+              </div>
+              <ul style="margin-top:8px;">
+                ${points}
+              </ul>
+              <div class="questBtns">
+                ${btnStart}
+                ${btnDone}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      if(qReset){
+        qReset.addEventListener("click", () => {
+          localStorage.removeItem(Q_KEY);
+          renderQuest();
+        });
+      }
+
+      if(qGrid){
+        qGrid.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-act]");
+          if(!btn) return;
+
+          const act = btn.getAttribute("data-act");
+          const i = parseInt(btn.getAttribute("data-i"), 10);
+          const doneArr = loadQuest();
+          const doneSet = new Set(doneArr);
+
+          const unlocked = i === 0 || doneSet.has(i - 1);
+          if(!unlocked) return;
+
+          if(act === "start"){
+            // 只是提示，不跳頁
+            alert("開始任務：\n" + quests[i].title + "\n\n完成後按「完成本關」解鎖下一關。");
+          }
+
+          if(act === "done"){
+            if(!doneSet.has(i)){
+              doneSet.add(i);
+              const next = Array.from(doneSet).sort((a,b)=>a-b);
+              saveQuest(next);
+              renderQuest();
+            }
+          }
+        });
+      }
+
+      // 初始化
+      renderQuest();
+
+      // -------------------------------
+      // 抽籤系統（localStorage 持久化）— 你的原內容保留
       // -------------------------------
       const LS_KEY = "eco_go_true_names_v1";
       const LS_POOL = "eco_go_true_pool_v1";
@@ -715,7 +956,7 @@
           .split(/\r?\n/)
           .map(s => s.trim())
           .filter(Boolean)
-          .filter((v, i, arr) => arr.indexOf(v) === i); // 去重
+          .filter((v, i, arr) => arr.indexOf(v) === i);
       }
 
       function setCounts(all, pool){
@@ -772,7 +1013,6 @@
         const all = loadNames();
         const pool = loadPool();
         if(all.length && !pool.length){
-          // 如果有名單但沒池，初始化池
           savePool(all.slice());
         }
         namesBox.value = all.join("\n");
@@ -780,7 +1020,6 @@
         renderHistory();
       }
 
-      // Buttons
       const btnLoadDemo = document.getElementById("btn-load-demo");
       const btnSave = document.getElementById("btn-save");
       const btnShuffle = document.getElementById("btn-shuffle");
@@ -886,7 +1125,7 @@
         });
 
         const lines = groups.map((g, i) => `第 ${i+1} 組（${g.length}）：${g.join("、")}`);
-        drawResult.innerHTML = "<b>✅ 分組完成</b><br/><br/>" + lines.map(l => l).join("<br/>");
+        drawResult.innerHTML = "<b>✅ 分組完成</b><br/><br/>" + lines.join("<br/>");
 
         const his = loadHistory();
         his.unshift("【分組】" + n + " 組｜" + new Date().toLocaleString("zh-Hant"));
